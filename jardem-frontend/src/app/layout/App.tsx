@@ -7,6 +7,15 @@ import RequestDashboard from '../../features/requests/dashboard/requestDashboard
 
 function App() {
   const [requests, setRequests] = useState<RequestModel[]>([])
+  const [selectedRequest, setSelectedRequest] = useState<RequestModel | undefined>(undefined)
+
+  function handleSelectedRequest(id: string) {
+    setSelectedRequest(requests.find((x) => x.id === id))
+  }
+
+  function handleCancelSelectedRequest() {
+    setSelectedRequest(undefined)
+  }
 
   useEffect(() => {
     axios.get<RequestModel[]>('http://localhost:5000/api/requests').then((response) => {
@@ -17,8 +26,13 @@ function App() {
   return (
     <>
       <NavBar />
-      <Container style={{marginTop:'7em'}}>
-        <RequestDashboard requests={requests}/>
+      <Container style={{ marginTop: '7em' }}>
+        <RequestDashboard
+          requests={requests}
+          handleCancelSelectedRequest={handleCancelSelectedRequest}
+          handleSelectedRequest={handleSelectedRequest}
+          selectedRequest={selectedRequest}
+        />
       </Container>
     </>
   )

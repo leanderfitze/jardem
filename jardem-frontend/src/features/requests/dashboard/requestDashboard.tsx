@@ -6,16 +6,29 @@ import RequestForm from '../forms/requestForm'
 
 interface Props {
   requests: RequestModel[]
+  selectedRequest: RequestModel | undefined
+  handleSelectedRequest: (id: string) => void
+  handleCancelSelectedRequest: () => void
 }
 
-export default function RequestDashboard({ requests }: Props) {
+export default function RequestDashboard({
+  requests,
+  selectedRequest,
+  handleCancelSelectedRequest,
+  handleSelectedRequest,
+}: Props) {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <RequestList requests={requests} />
+        <RequestList requests={requests} handleSelectedRequest={handleSelectedRequest}/>
       </Grid.Column>
       <Grid.Column width={6}>
-        {requests[0] && <RequestDetails request={requests[0]} />}
+        {selectedRequest && (
+          <RequestDetails
+            handleCancelSelectedRequest={handleCancelSelectedRequest}
+            selectedRequest={selectedRequest}
+          />
+        )}
         <RequestForm />
       </Grid.Column>
     </Grid>
