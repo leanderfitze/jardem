@@ -1,6 +1,10 @@
 import { Button, Container, Menu } from 'semantic-ui-react'
 
-export default function NavBar() {
+interface Props{
+  handleFormOpen: ()=>void
+}
+
+export default function NavBar({handleFormOpen}:Props) {
   return (
     <Menu fixed='top' inverted>
       <Container>
@@ -13,7 +17,7 @@ export default function NavBar() {
         <Menu.Item name='Learn' />
         <Menu.Menu position='right'>
         <Menu.Item>
-            <Button primary>Ask for help</Button>
+            <Button primary onClick={()=>handleFormOpen()}>Ask for help</Button>
           </Menu.Item>
           <Menu.Item>
             <Button primary>Sign up</Button>

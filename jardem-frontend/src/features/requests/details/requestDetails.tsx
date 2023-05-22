@@ -4,9 +4,10 @@ import { RequestModel } from '../../../app/models/request'
 interface Props {
   selectedRequest: RequestModel
   handleCancelSelectedRequest: () => void
+  handleFormOpen: (id:string) => void
 }
 
-export default function RequestDetails({ selectedRequest, handleCancelSelectedRequest }: Props) {
+export default function RequestDetails({ selectedRequest, handleCancelSelectedRequest, handleFormOpen }: Props) {
   return (
     <Card>
       <Image src='/assets/user.png' fluid />
@@ -19,7 +20,7 @@ export default function RequestDetails({ selectedRequest, handleCancelSelectedRe
       </Card.Content>
       <Card.Content extra>
         <Button basic color='grey' content='Close' onClick={() => handleCancelSelectedRequest()} />
-        <Button floated='right' className='secondary-button' content='Edit' />
+        <Button floated='right' className='secondary-button' content='Edit' onClick={()=>handleFormOpen(selectedRequest.id)} />
       </Card.Content>
     </Card>
   )
