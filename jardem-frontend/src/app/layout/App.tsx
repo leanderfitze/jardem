@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Container, Header, Image, List } from 'semantic-ui-react'
+import { Container, List } from 'semantic-ui-react'
 import { RequestModel } from '../models/request'
 import NavBar from './NavBar'
+import RequestDashboard from '../../features/requests/dashboard/requestDashboard'
 
 function App() {
   const [requests, setRequests] = useState<RequestModel[]>([])
@@ -17,11 +18,7 @@ function App() {
     <>
       <NavBar />
       <Container style={{marginTop:'7em'}}>
-        <List>
-          {requests.map((request) => (
-            <List.Item key={request.id}>{request.title}</List.Item>
-          ))}
-        </List>
+        <RequestDashboard requests={requests}/>
       </Container>
     </>
   )

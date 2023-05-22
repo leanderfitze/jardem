@@ -1,6 +1,5 @@
 body{
-  background-color: #e7f1fb;
-
+  background-color: #f5f6f8;
 }
 
 .ui.inverted.top.fixed.menu{
@@ -10,4 +9,9 @@ body{
 .ui.primary.button{
   background-color: #fafafa;
   color: #025aee;
+}
+
+.secondary-button{
+  color: #fafafa !important;
+  background-color: #025aee !important;
 }
