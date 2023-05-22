@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import './App.css'
 import axios from 'axios'
 import { Header, Image, List } from 'semantic-ui-react'
-import { request } from 'http'
 
 function App() {
   const [requests, setRequests] = useState([])
