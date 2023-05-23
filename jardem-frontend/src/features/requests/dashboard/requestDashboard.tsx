@@ -12,6 +12,7 @@ interface Props {
   editMode: boolean
   handleFormOpen: (id: string) => void
   handleFormClose: () => void
+  handleCreateOrEditRequest: (request: RequestModel) => void
 }
 
 export default function RequestDashboard({
@@ -22,6 +23,7 @@ export default function RequestDashboard({
   handleSelectedRequest,
   handleFormClose,
   handleFormOpen,
+  handleCreateOrEditRequest
 }: Props) {
   return (
     <Grid>
@@ -36,7 +38,13 @@ export default function RequestDashboard({
             handleFormOpen={handleFormOpen}
           />
         )}
-        {editMode && <RequestForm handleFormClose={handleFormClose} request={selectedRequest}/>}
+        {editMode && (
+          <RequestForm
+            handleFormClose={handleFormClose}
+            request={selectedRequest}
+            handleCreateOrEditRequest={handleCreateOrEditRequest}
+          />
+        )}
       </Grid.Column>
     </Grid>
   )

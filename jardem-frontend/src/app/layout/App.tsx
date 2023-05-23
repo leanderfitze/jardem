@@ -4,6 +4,7 @@ import { Container } from 'semantic-ui-react'
 import { RequestModel } from '../models/request'
 import NavBar from './NavBar'
 import RequestDashboard from '../../features/requests/dashboard/requestDashboard'
+import {v4 as uuid} from 'uuid'
 
 function App() {
   const [requests, setRequests] = useState<RequestModel[]>([])
@@ -19,13 +20,21 @@ function App() {
     setSelectedRequest(undefined)
   }
 
-  function handleFormOpen(id?:string){
-    id ? handleSelectedRequest(id):handleCancelSelectedRequest()
+  function handleFormOpen(id?: string) {
+    id ? handleSelectedRequest(id) : handleCancelSelectedRequest()
     setEditMode(true)
   }
 
-  function handleFormClose(){
+  function handleFormClose() {
     setEditMode(false)
+  }
+
+  function handleCreatOrEditRequest(request: RequestModel) {
+    request.id
+      ? setRequests([...requests.filter((x) => x.id !== request.id), request])
+      : setRequests([...requests, {...request, id:uuid(), date:new Date().toISOString()}])
+    setEditMode(false)
+    setSelectedRequest(request)
   }
 
   useEffect(() => {
@@ -41,11 +50,12 @@ function App() {
         <RequestDashboard
           editMode={editMode}
           requests={requests}
+          selectedRequest={selectedRequest}
           handleCancelSelectedRequest={handleCancelSelectedRequest}
           handleSelectedRequest={handleSelectedRequest}
-          handleFormOpen = {handleFormOpen}
-          handleFormClose = {handleFormClose}
-          selectedRequest={selectedRequest}
+          handleFormOpen={handleFormOpen}
+          handleFormClose={handleFormClose}
+          handleCreateOrEditRequest={handleCreatOrEditRequest}
         />
       </Container>
     </>

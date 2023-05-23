@@ -1,19 +1,48 @@
 import { Button, Form, Segment } from 'semantic-ui-react'
 import { RequestModel } from '../../../app/models/request'
+import { ChangeEvent, useState } from 'react'
 
 interface Props {
   request: RequestModel | undefined
   handleFormClose: () => void
+  handleCreateOrEditRequest: (request:RequestModel)=>void
 }
 
-export default function RequestForm({ handleFormClose, request }: Props) {
+export default function RequestForm({ handleFormClose, request: selectedRequest,handleCreateOrEditRequest }: Props) {
+  const initialState = selectedRequest ?? {
+    id: '',
+    title: '',
+    details: '',
+    date: '',
+  }
+  const [request, setRequest] = useState(initialState)
+
+  function handleInputOnChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value } = e.target
+    setRequest({ ...request, [name]: value })
+  }
+
+  function handleSubmit(){
+    handleCreateOrEditRequest(request)
+  }
+
   return (
     <Segment clearing>
-      <Form>
-        <Form.Input placeholder='Title' />
-        <Form.TextArea placeholder='Details' />
+      <Form onSubmit={handleSubmit}>
+        <Form.Input
+          placeholder='Title'
+          name='title'
+          value={request.title}
+          onChange={handleInputOnChange}
+        />
+        <Form.TextArea
+          placeholder='Details'
+          name='details'
+          value={request.details}
+          onChange={handleInputOnChange}
+        />
         <Button floated='right' className='secondary-button' content='Submit' />
-        <Button basic color='grey' content='Cancel' onClick={ handleFormClose} />
+        <Button basic color='grey' content='Cancel' onClick={handleFormClose} />
       </Form>
     </Segment>
   )
