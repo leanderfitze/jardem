@@ -13,6 +13,7 @@ interface Props {
   handleFormOpen: (id: string) => void
   handleFormClose: () => void
   handleCreateOrEditRequest: (request: RequestModel) => void
+  handleDeleteRequest: (id:string) => void
 }
 
 export default function RequestDashboard({
@@ -23,12 +24,13 @@ export default function RequestDashboard({
   handleSelectedRequest,
   handleFormClose,
   handleFormOpen,
-  handleCreateOrEditRequest
+  handleCreateOrEditRequest,
+  handleDeleteRequest
 }: Props) {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <RequestList requests={requests} handleSelectedRequest={handleSelectedRequest} />
+        <RequestList requests={requests} handleSelectedRequest={handleSelectedRequest} handleDeleteRequest={handleDeleteRequest}/>
       </Grid.Column>
       <Grid.Column width={6}>
         {selectedRequest && (

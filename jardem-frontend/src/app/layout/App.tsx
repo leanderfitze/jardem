@@ -4,7 +4,7 @@ import { Container } from 'semantic-ui-react'
 import { RequestModel } from '../models/request'
 import NavBar from './NavBar'
 import RequestDashboard from '../../features/requests/dashboard/requestDashboard'
-import {v4 as uuid} from 'uuid'
+import { v4 as uuid } from 'uuid'
 
 function App() {
   const [requests, setRequests] = useState<RequestModel[]>([])
@@ -32,9 +32,14 @@ function App() {
   function handleCreatOrEditRequest(request: RequestModel) {
     request.id
       ? setRequests([...requests.filter((x) => x.id !== request.id), request])
-      : setRequests([...requests, {...request, id:uuid(), date:new Date().toISOString()}])
+      : setRequests([...requests, { ...request, id: uuid(), date: new Date().toISOString() }])
     setEditMode(false)
     setSelectedRequest(request)
+  }
+
+  function handleDeleteRequest(id: string) {
+    setSelectedRequest(undefined)
+    setRequests([...requests.filter((x) => x.id !== id)])
   }
 
   useEffect(() => {
@@ -56,6 +61,7 @@ function App() {
           handleFormOpen={handleFormOpen}
           handleFormClose={handleFormClose}
           handleCreateOrEditRequest={handleCreatOrEditRequest}
+          handleDeleteRequest = {handleDeleteRequest}
         />
       </Container>
     </>
