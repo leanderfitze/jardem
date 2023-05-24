@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Container } from 'semantic-ui-react'
 import { RequestModel } from '../models/request'
 import NavBar from './NavBar'
 import RequestDashboard from '../../features/requests/dashboard/requestDashboard'
 import { v4 as uuid } from 'uuid'
+import agent from '../api/agent'
 
 function App() {
   const [requests, setRequests] = useState<RequestModel[]>([])
@@ -43,8 +43,8 @@ function App() {
   }
 
   useEffect(() => {
-    axios.get<RequestModel[]>('http://localhost:5000/api/requests').then((response) => {
-      setRequests(response.data)
+    agent.Requests.list().then((response) => {
+      setRequests(response)
     })
   }, [])
 
