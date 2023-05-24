@@ -4,11 +4,17 @@ import { ChangeEvent, useState } from 'react'
 
 interface Props {
   request: RequestModel | undefined
+  submitting: boolean
   handleFormClose: () => void
-  handleCreateOrEditRequest: (request:RequestModel)=>void
+  handleCreateOrEditRequest: (request: RequestModel) => void
 }
 
-export default function RequestForm({ handleFormClose, request: selectedRequest,handleCreateOrEditRequest }: Props) {
+export default function RequestForm({
+  handleFormClose,
+  request: selectedRequest,
+  handleCreateOrEditRequest,
+  submitting,
+}: Props) {
   const initialState = selectedRequest ?? {
     id: '',
     title: '',
@@ -22,7 +28,7 @@ export default function RequestForm({ handleFormClose, request: selectedRequest,
     setRequest({ ...request, [name]: value })
   }
 
-  function handleSubmit(){
+  function handleSubmit() {
     handleCreateOrEditRequest(request)
   }
 
@@ -41,7 +47,7 @@ export default function RequestForm({ handleFormClose, request: selectedRequest,
           value={request.details}
           onChange={handleInputOnChange}
         />
-        <Button floated='right' className='secondary-button' content='Submit' />
+        <Button floated='right' className='secondary-button' content='Submit' loading={submitting}/>
         <Button basic color='grey' content='Cancel' onClick={handleFormClose} />
       </Form>
     </Segment>

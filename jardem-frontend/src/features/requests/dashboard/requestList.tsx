@@ -1,13 +1,22 @@
 import { Button, Item, Segment } from 'semantic-ui-react'
 import { RequestModel } from '../../../app/models/request'
+import { SyntheticEvent, useState } from 'react'
 
 interface Props {
   requests: RequestModel[]
+  deleting: boolean
   handleSelectedRequest: (id: string) => void
   handleDeleteRequest: (id:string) => void
 }
 
-export default function RequestList({ requests, handleSelectedRequest, handleDeleteRequest}: Props) {
+export default function RequestList({ requests, deleting, handleSelectedRequest, handleDeleteRequest}: Props) {
+  const [target,setTarget] = useState('')
+
+  function handleDelete(e:SyntheticEvent<HTMLButtonElement>, id:string){
+    setTarget(e.currentTarget.name)
+    handleDeleteRequest(id)
+  }
+
   return (
     <Segment>
       <Item.Group divided>
@@ -25,10 +34,12 @@ export default function RequestList({ requests, handleSelectedRequest, handleDel
                   onClick={() => handleSelectedRequest(request.id)}
                 />
                 <Button
+                name={request.id}
                 className='delete-button'
                 floated='right'
                 content='Delete'
-                onClick={() => handleDeleteRequest(request.id)}
+                onClick={(e) => handleDelete(e,request.id)}
+                loading={deleting&&target==request.id}
               />
               </Item.Extra>
             </Item.Content>

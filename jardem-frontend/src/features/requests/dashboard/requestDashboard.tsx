@@ -7,30 +7,39 @@ import RequestForm from '../forms/requestForm'
 interface Props {
   requests: RequestModel[]
   selectedRequest: RequestModel | undefined
+  editMode: boolean
+  submitting: boolean
+  deleting: boolean
   handleSelectedRequest: (id: string) => void
   handleCancelSelectedRequest: () => void
-  editMode: boolean
   handleFormOpen: (id: string) => void
   handleFormClose: () => void
   handleCreateOrEditRequest: (request: RequestModel) => void
-  handleDeleteRequest: (id:string) => void
+  handleDeleteRequest: (id: string) => void
 }
 
 export default function RequestDashboard({
   requests,
   selectedRequest,
   editMode,
+  submitting,
+  deleting,
   handleCancelSelectedRequest,
   handleSelectedRequest,
   handleFormClose,
   handleFormOpen,
   handleCreateOrEditRequest,
-  handleDeleteRequest
+  handleDeleteRequest,
 }: Props) {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <RequestList requests={requests} handleSelectedRequest={handleSelectedRequest} handleDeleteRequest={handleDeleteRequest}/>
+        <RequestList
+          deleting={deleting}
+          requests={requests}
+          handleSelectedRequest={handleSelectedRequest}
+          handleDeleteRequest={handleDeleteRequest}
+        />
       </Grid.Column>
       <Grid.Column width={6}>
         {selectedRequest && (
@@ -42,6 +51,7 @@ export default function RequestDashboard({
         )}
         {editMode && (
           <RequestForm
+            submitting={submitting}
             handleFormClose={handleFormClose}
             request={selectedRequest}
             handleCreateOrEditRequest={handleCreateOrEditRequest}
