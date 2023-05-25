@@ -32,8 +32,8 @@ const request = {
 const Requests = {
   list: () => request.get<RequestModel[]>('/requests'),
   details: (id: string) => request.get<RequestModel>(`/requests/${id}`),
-  create: (activity: RequestModel) => request.post<void>('/requests',activity),
-  update: (activity: RequestModel) => request.put<void>(`/requests/${activity.id}`, activity),
+  create: (req: RequestModel) => request.post<void>('/requests',req),
+  update: (req: RequestModel) => request.put<void>(`/requests/${req.id}`, req),
   delete: (id: string) => request.del<void>(`/requests/${id}`)
 }
 

@@ -1,21 +1,11 @@
 import { Button, Form, Segment } from 'semantic-ui-react'
-import { RequestModel } from '../../../app/models/request'
 import { ChangeEvent, useState } from 'react'
+import { useStore } from '../../../app/stores/store'
+import { observer } from 'mobx-react-lite'
 
-interface Props {
-  request: RequestModel | undefined
-  submitting: boolean
-  handleFormClose: () => void
-  handleCreateOrEditRequest: (request: RequestModel) => void
-}
-
-export default function RequestForm({
-  handleFormClose,
-  request: selectedRequest,
-  handleCreateOrEditRequest,
-  submitting,
-}: Props) {
-  const initialState = selectedRequest ?? {
+export default observer(function RequestForm() {
+  const {requestStore} = useStore()
+  const initialState = requestStore.selectedRequest ?? {
     id: '',
     title: '',
     details: '',
@@ -29,7 +19,7 @@ export default function RequestForm({
   }
 
   function handleSubmit() {
-    handleCreateOrEditRequest(request)
+    request.id?requestStore.updateRequest(request):requestStore.createRequest(request)
   }
 
   return (
@@ -47,9 +37,14 @@ export default function RequestForm({
           value={request.details}
           onChange={handleInputOnChange}
         />
-        <Button floated='right' className='secondary-button' content='Submit' loading={submitting}/>
-        <Button basic color='grey' content='Cancel' onClick={handleFormClose} />
+        <Button
+          floated='right'
+          className='secondary-button'
+          content='Submit'
+          loading={requestStore.submitting}
+        />
+        <Button basic color='grey' content='Cancel' onClick={requestStore.closeForm} />
       </Form>
     </Segment>
   )
-}
+})
