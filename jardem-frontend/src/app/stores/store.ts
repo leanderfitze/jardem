@@ -5,7 +5,7 @@ interface Store {
   requestStore: RequestStore
 }
 
-const store: Store = {
+export const store: Store = {
     requestStore: new RequestStore()
 }
 

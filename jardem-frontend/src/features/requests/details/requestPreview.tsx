@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 import { Link } from 'react-router-dom'
 
-export default observer(function RequestDetails() {
+export default observer(function RequestPreview() {
   const { requestStore } = useStore()
   const { id } = useParams()
 
@@ -28,13 +28,18 @@ export default observer(function RequestDetails() {
         <Card.Description>{requestStore.selectedRequest!.details}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Button basic color='grey' content='Close' as={Link} to='/requests' />
+        <Button
+          basic
+          color='grey'
+          content='Close'
+          onClick={() => requestStore.cancelSelectedRequest()}
+        />
         <Button
           floated='right'
           className='secondary-button'
-          content='Edit'
+          content='View'
           as={Link}
-          to={`/edit/${requestStore.selectedRequest.id}`}
+          to={`/requests/${requestStore.selectedRequest.id}`}
         />
       </Card.Content>
     </Card>

@@ -1,17 +1,22 @@
 import { Button, Form, Segment } from 'semantic-ui-react'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useStore } from '../../../app/stores/store'
 import { observer } from 'mobx-react-lite'
+import { useNavigate, useParams } from 'react-router'
+import { RequestModel } from '../../../app/models/request'
+import LoadingComponent from '../../../app/layout/LoadingComponent'
+import { Link } from 'react-router-dom'
 
 export default observer(function RequestForm() {
   const {requestStore} = useStore()
-  const initialState = requestStore.selectedRequest ?? {
+  const {id} = useParams()
+  const navigate = useNavigate()
+  const [request, setRequest] = useState<RequestModel>({
     id: '',
     title: '',
     details: '',
     date: '',
-  }
-  const [request, setRequest] = useState(initialState)
+  })
 
   function handleInputOnChange(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
@@ -19,8 +24,16 @@ export default observer(function RequestForm() {
   }
 
   function handleSubmit() {
-    request.id?requestStore.updateRequest(request):requestStore.createRequest(request)
+    request.id ?
+      requestStore.updateRequest(request).then(()=>navigate(`/requests/${request.id}`))
+      :requestStore.createRequest(request).then((id)=>navigate(`/requests/${id}`))
   }
+
+  useEffect(()=>{
+    if(id) requestStore.loadRequest(id).then(request=>setRequest(request!))
+  },[id,requestStore])
+
+  if (requestStore.loadingInitial) return <LoadingComponent content='loading request...'/>
 
   return (
     <Segment clearing>
@@ -43,7 +56,7 @@ export default observer(function RequestForm() {
           content='Submit'
           loading={requestStore.submitting}
         />
-        <Button basic color='grey' content='Cancel' onClick={requestStore.closeForm} />
+        <Button basic color='grey' content='Cancel' as={Link} to={id?`/requests/${id}`:'/requests'} />
       </Form>
     </Segment>
   )

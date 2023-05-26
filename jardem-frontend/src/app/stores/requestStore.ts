@@ -23,8 +23,8 @@ export default class RequestStore {
         requests.forEach((req) => {
           this.requestRegistry.set(req.id, req)
         })
+        this.loadingInitial = false
       })
-      this.loadingInitial = false
     } catch (error) {
       console.log(error)
       runInAction(() => {
@@ -33,6 +33,32 @@ export default class RequestStore {
     }
   }
 
+  loadRequest = async (id: string) => {
+    let request = this.getRequest(id)
+    if (request) {
+      this.selectedRequest = request
+      return request
+    } else {
+      this.loadingInitial = true
+      try {
+        request = await agent.Requests.details(id)
+        this.requestRegistry.set(request.id, request)
+        runInAction(() => {
+          this.loadingInitial = false
+        })
+        return request
+      } catch (error) {
+        console.log(error)
+        runInAction(() => {
+          this.loadingInitial = false
+        })
+      }
+    }
+  }
+
+  private getRequest = (id: string) => {
+    return this.requestRegistry.get(id)
+  }
   get requestsByDate() {
     return Array.from(this.requestRegistry.values()).sort(
       (a, b) => Date.parse(b.date) - Date.parse(a.date)
@@ -69,6 +95,7 @@ export default class RequestStore {
         this.closeForm()
         this.submitting = false
       })
+      return request.id
     } catch (error) {
       console.log(error)
       runInAction(() => {

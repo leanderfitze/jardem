@@ -25,8 +25,9 @@ export default observer(function RequestList() {
                 <Button
                   className='secondary-button'
                   floated='right'
-                  content='View'
+                  content='Preview'
                   onClick={() => requestStore.selectRequest(request.id)}
+                  
                 />
                 <Button
                   name={request.id}
