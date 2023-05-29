@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -14,6 +15,13 @@ namespace Application.Requests
         public class Command : IRequest<Unit>
         {
             public Request Request { get; set; }
+        }
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Request).SetValidator(new RequestValidator());
+            }
         }
         public class Handler : IRequestHandler<Command, Unit>
         {
@@ -30,7 +38,7 @@ namespace Application.Requests
                 var dbrequest = await _context.Requests.FindAsync(request.Request.Id);
                 _mapper.Map(request.Request, dbrequest);
                 await _context.SaveChangesAsync();
-                return Unit.Value; 
+                return Unit.Value;
             }
         }
     }
