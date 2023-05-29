@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Core;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -12,7 +13,7 @@ namespace Application.Requests
 {
     public class Edit
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest<Result<Unit>>
         {
             public Request Request { get; set; }
         }
@@ -23,7 +24,7 @@ namespace Application.Requests
                 RuleFor(x => x.Request).SetValidator(new RequestValidator());
             }
         }
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -33,12 +34,15 @@ namespace Application.Requests
                 _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dbrequest = await _context.Requests.FindAsync(request.Request.Id);
-                _mapper.Map(request.Request, dbrequest);
-                await _context.SaveChangesAsync();
-                return Unit.Value;
+                var req = await _context.Requests.FindAsync(request.Request.Id);
+                if (req == null) return null;
+                _mapper.Map(request.Request, req);
+                var result = await _context.SaveChangesAsync() > 0;
+                if (result)
+                    return Result<Unit>.Success(Unit.Value);
+                return Result<Unit>.Failure("Failed to edit Request");
             }
         }
     }

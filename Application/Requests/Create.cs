@@ -1,3 +1,4 @@
+using Application.Core;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -7,7 +8,7 @@ namespace Application.Requests
 {
     public class Create
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest<Result<Unit>>
         {
             public Request Request { get; set; }
         }
@@ -20,7 +21,7 @@ namespace Application.Requests
             }
         }
 
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -28,11 +29,13 @@ namespace Application.Requests
                 _context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 _context.Requests.Add(request.Request);
-                await _context.SaveChangesAsync();
-                return Unit.Value;
+                var result = await _context.SaveChangesAsync()>0;
+                if(result)
+                return Result<Unit>.Success(Unit.Value);
+                return Result<Unit>.Failure("Failed to create a Request");
             }
         }
     }

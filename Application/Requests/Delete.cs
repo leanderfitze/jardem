@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Core;
 using MediatR;
 using Persistence;
 
@@ -9,11 +10,11 @@ namespace Application.Requests
 {
     public class Delete
     {
-        public class Command : IRequest<Unit>
+        public class Command : IRequest<Result<Unit>>
         {
             public Guid Id { get; set; }
         }
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -21,12 +22,18 @@ namespace Application.Requests
                 _context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var dbrequest = await _context.Requests.FindAsync(request.Id);
-                _context.Requests.Remove(dbrequest);
-                await _context.SaveChangesAsync();
-                return Unit.Value;
+                var req = await _context.Requests.FindAsync(request.Id);
+
+                if (req == null) return null;
+
+                _context.Requests.Remove(req);
+
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (result) return Result<Unit>.Success(Unit.Value);
+                return Result<Unit>.Failure("Failed to delete Request");
             }
         }
     }
