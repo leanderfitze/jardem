@@ -33,6 +33,22 @@ export default class RequestStore {
     }
   }
 
+  get requestsByDate() {
+    return Array.from(this.requestRegistry.values()).sort(
+      (a, b) => Date.parse(b.date) - Date.parse(a.date)
+    )
+  }
+
+  get groupedRequests(){
+    return Object.entries(
+      this.requestsByDate.reduce((requests, request)=>{
+        const date = request.date.split('T')[0]
+        requests[date] = requests[date]? [...requests[date], request] : [request]
+        return requests
+      },{} as {[key:string]:RequestModel[]})
+    )
+  }
+
   loadRequest = async (id: string) => {
     let request = this.getRequest(id)
     if (request) {
@@ -42,8 +58,8 @@ export default class RequestStore {
       this.loadingInitial = true
       try {
         request = await agent.Requests.details(id)
-        this.requestRegistry.set(request.id, request)
         runInAction(() => {
+          this.selectedRequest = request
           this.loadingInitial = false
         })
         return request
@@ -58,11 +74,6 @@ export default class RequestStore {
 
   private getRequest = (id: string) => {
     return this.requestRegistry.get(id)
-  }
-  get requestsByDate() {
-    return Array.from(this.requestRegistry.values()).sort(
-      (a, b) => Date.parse(b.date) - Date.parse(a.date)
-    )
   }
 
   selectRequest = (id: string) => {

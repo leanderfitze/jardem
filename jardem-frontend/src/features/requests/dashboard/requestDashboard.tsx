@@ -6,6 +6,7 @@ import { useStore } from '../../../app/stores/store'
 import { useEffect } from 'react'
 import LoadingComponent from '../../../app/layout/LoadingComponent'
 import RequestPreview from '../details/requestPreview'
+import RequestFilters from './requestFilters'
 
 export default observer(function RequestDashboard() {
   const { requestStore } = useStore()
