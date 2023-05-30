@@ -5,18 +5,25 @@ import CommunityPage from '../../features/community/communityPage'
 import LearnPage from '../../features/learn/learnPage'
 import RequestForm from '../../features/requests/forms/requestForm'
 import RequestDetails from '../../features/requests/details/requestDetails'
+import TestError from '../../features/errors/TestError'
+import NotFound from '../../features/errors/NotFound'
+import ServerError from '../../features/errors/ServerError'
 
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: <App />,
     children: [
-      { path: '', element: <RequestForm key='create'/> },
-      { path: 'edit/:id', element: <RequestForm key='edit'/> },
+      { path: '', element: <RequestForm key='create' /> },
+      { path: 'edit/:id', element: <RequestForm key='edit' /> },
       { path: 'requests', element: <RequestDashboard /> },
       { path: 'requests/:id', element: <RequestDetails /> },
       { path: 'community', element: <CommunityPage /> },
       { path: 'learn', element: <LearnPage /> },
+      { path: 'errors', element: <TestError /> },
+      { path: 'not-found', element: <NotFound /> },
+      { path: 'server-error', element: <ServerError /> },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]

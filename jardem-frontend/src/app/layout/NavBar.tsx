@@ -15,6 +15,7 @@ export default observer(function NavBar() {
         <Menu.Item name='Requests' as={NavLink} to='/requests' />
         <Menu.Item name='Community' as={NavLink} to='/community' />
         <Menu.Item name='Learn' as={NavLink} to='/learn' />
+        <Menu.Item name='Errors' as={NavLink} to='/errors' />
         <Menu.Menu position='right'>
           <Menu.Item>
             <Button primary as={NavLink} to='/'>
