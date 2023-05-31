@@ -7,7 +7,6 @@ namespace API.Controllers
 {
     public class RequestsController : BaseApiController
     {
-        [Authorize]
         [HttpGet] // api/requests
         public async Task<ActionResult<List<Request>>> GetRequests(CancellationToken ct)
         {
