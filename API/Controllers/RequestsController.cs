@@ -1,11 +1,13 @@
 using Application.Requests;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     public class RequestsController : BaseApiController
     {
+        [Authorize]
         [HttpGet] // api/requests
         public async Task<ActionResult<List<Request>>> GetRequests(CancellationToken ct)
         {
