@@ -43,7 +43,7 @@ export default observer(function RequestDetailsHeader({ request }: Props) {
 
             <Item.Content>
               <Item.Header as='a'>Header</Item.Header>
-              <Item.Meta>Description</Item.Meta>
+              <Item.Meta>{request.title}</Item.Meta>
               <Item.Description>{request.details}</Item.Description>
               <Item.Extra>{request.date}</Item.Extra>
             </Item.Content>
