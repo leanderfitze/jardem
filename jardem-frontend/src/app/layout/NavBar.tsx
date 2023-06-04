@@ -1,10 +1,8 @@
 import { observer } from 'mobx-react-lite'
 import { Button, Container, Menu } from 'semantic-ui-react'
-import { useStore } from '../stores/store'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 export default observer(function NavBar() {
-  const { requestStore } = useStore()
   return (
     <Menu fixed='top' inverted>
       <Container>
@@ -23,7 +21,7 @@ export default observer(function NavBar() {
             </Button>
           </Menu.Item>
           <Menu.Item>
-            <Button primary>Sign up</Button>
+            <Button primary as={Link} to='/login'>Sign up</Button>
           </Menu.Item>
         </Menu.Menu>
       </Container>
