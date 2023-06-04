@@ -3,6 +3,7 @@ import { RequestModel } from '../models/request'
 import { toast } from 'react-hot-toast'
 import { router } from '../router/routes'
 import { store } from '../stores/store'
+import { User, UserFormValues } from '../models/user'
 
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
@@ -70,8 +71,15 @@ const Requests = {
   delete: (id: string) => request.del<void>(`/requests/${id}`),
 }
 
+const Account = {
+  current: () => request.get<User>('/account'),
+  login: (user:UserFormValues) => request.post<User>('/account/login', user),
+  register: (user:UserFormValues) => request.post<User>('/account/register', user)
+}
+
 const agent = {
   Requests,
+  Account
 }
 
 export default agent
