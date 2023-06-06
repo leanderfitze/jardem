@@ -10,11 +10,14 @@ export default class CommonStore {
     makeAutoObservable(this)
 
     reaction(
-        () => this.token, 
-        token => {
-            if(token) localStorage.setItem('jwt',token)
-            else localStorage.removeItem('jwt')
+      () => this.token,
+      (token) => {
+        if (token) {
+          localStorage.setItem('jwt', token)
+        } else {
+          localStorage.removeItem('jwt')
         }
+      }
     )
   }
 
@@ -28,5 +31,5 @@ export default class CommonStore {
 
   setAppLoaded = () => {
     this.appLoaded = true
-  } 
+  }
 }

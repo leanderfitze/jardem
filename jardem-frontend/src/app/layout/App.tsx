@@ -3,17 +3,33 @@ import NavBar from './NavBar'
 import { observer } from 'mobx-react-lite'
 import { Outlet } from 'react-router'
 import { Toaster } from 'react-hot-toast'
+import { useStore } from '../stores/store'
+import { useEffect } from 'react'
+import LoadingComponent from './LoadingComponent'
 
 function App() {
-  return (
-    <>
-    <Toaster position='bottom-right'/>
+  const { userStore, commonStore } = useStore()
+  useEffect(() => {
+    if (commonStore.token) {
+      userStore.getUser().finally(() => commonStore.setAppLoaded())
+    } else {
+      commonStore.setAppLoaded()
+    }
+  }, [commonStore, userStore])
+
+  if (commonStore.appLoaded) {
+    return (
+      <>
+        <Toaster position='bottom-right' />
         <NavBar />
         <Container style={{ marginTop: '7em' }}>
-        <Outlet/>
+          <Outlet />
         </Container>
       </>
-  )
+    )
+  }
+
+  return <LoadingComponent/>
 }
 
 export default observer(App)
