@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite'
 import { Button, Header, Label } from 'semantic-ui-react'
 import CustomTextInput from '../../app/common/form/CustomTextInput'
 import { useStore } from '../../app/stores/store'
-import { error } from 'console'
 
 export default observer(function LoginForm() {
   const { userStore } = useStore()
