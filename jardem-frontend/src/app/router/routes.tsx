@@ -10,6 +10,7 @@ import NotFound from '../../features/errors/NotFound'
 import ServerError from '../../features/errors/ServerError'
 import LoginForm from '../../features/users/LoginForm'
 import HomePage from '../../features/home/homePage'
+import RegistrationForm from '../../features/users/RegistrationForm'
 
 export const routes: RouteObject[] = [
   {
@@ -23,6 +24,7 @@ export const routes: RouteObject[] = [
       { path: 'learn', element: <LearnPage /> },
       { path: 'login', element: <LoginForm /> },
       { path: 'not-found', element: <NotFound /> },
+      { path: 'register', element: <RegistrationForm /> },
       { path: 'requests', element: <RequestDashboard /> },
       { path: 'requests/:id', element: <RequestDetails /> },
       { path: 'server-error', element: <ServerError /> },
