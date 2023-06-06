@@ -9,13 +9,14 @@ import TestError from '../../features/errors/TestError'
 import NotFound from '../../features/errors/NotFound'
 import ServerError from '../../features/errors/ServerError'
 import LoginForm from '../../features/users/LoginForm'
+import HomePage from '../../features/home/homePage'
 
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: <App />,
     children: [
-      { path: '', element: <RequestForm key='create' /> },
+      { path: '', element: <HomePage /> },
       { path: 'community', element: <CommunityPage /> },
       { path: 'edit/:id', element: <RequestForm key='edit' /> },
       { path: 'errors', element: <TestError /> },
