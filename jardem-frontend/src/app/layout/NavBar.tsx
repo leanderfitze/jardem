@@ -2,9 +2,11 @@ import { observer } from 'mobx-react-lite'
 import { Button, Container, Dropdown, Image, Menu } from 'semantic-ui-react'
 import { Link, NavLink } from 'react-router-dom'
 import { useStore } from '../stores/store'
+import LoginForm from '../../features/users/LoginForm'
+import RegistrationForm from '../../features/users/RegistrationForm'
 
 export default observer(function NavBar() {
-  const { userStore } = useStore()
+  const { userStore, modalStore } = useStore()
   return (
     <Menu fixed='top' inverted>
       <Container>
@@ -26,7 +28,7 @@ export default observer(function NavBar() {
           )}
           {userStore.isLoggedIn && (
             <Menu.Item>
-              <Image src={userStore.user?.image || '/assets/user.png'} avatar spaced='right'/>
+              <Image src={userStore.user?.image || '/assets/user.png'} avatar spaced='right' />
               <Dropdown pointing='top' text={userStore.user?.displayName}>
                 <Dropdown.Menu>
                   <Dropdown.Item
@@ -42,9 +44,14 @@ export default observer(function NavBar() {
           )}
           {!userStore.isLoggedIn && (
             <Menu.Item>
-              <Button primary as={Link} to='/login'>
-                Sign up
-              </Button>
+              <Button.Group>
+                <Button positive onClick={() => modalStore.openModal(<RegistrationForm />)}>
+                  Sign up
+                </Button>
+                <Button primary onClick={() => modalStore.openModal(<LoginForm />)}>
+                  Login
+                </Button>
+              </Button.Group>
             </Menu.Item>
           )}
         </Menu.Menu>

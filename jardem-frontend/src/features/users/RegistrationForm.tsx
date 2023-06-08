@@ -5,7 +5,8 @@ import { UserType } from '../../app/models/user'
 import { Form } from 'react-router-dom'
 import CustomTextInput from '../../app/common/form/CustomTextInput'
 import CustomSelectInput from '../../app/common/form/CustomSelectInput'
-import { Button, Label } from 'semantic-ui-react'
+import { Button, Header } from 'semantic-ui-react'
+import ValidationError from '../errors/ValidationError'
 
 export default observer(function RegistrationForm() {
   const { userStore } = useStore()
@@ -21,11 +22,12 @@ export default observer(function RegistrationForm() {
         error: null,
       }}
       onSubmit={ (values, { setErrors }) =>
-        userStore.register(values).catch((error) => setErrors({ error: 'Invalide email or password' }))
+        userStore.register(values).catch((error) => setErrors({ error }))
       }
     >
       {({ handleSubmit, isSubmitting, errors }) => (
-        <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
+        <Form className='ui form error' onSubmit={handleSubmit} autoComplete='off'>
+          <Header as={'h2'} content='Sign up to the system' color='teal' textAlign='center' />
           <CustomTextInput placeholder='Email' name='email' />
           <CustomTextInput placeholder='User Name' name='userName' />
           <CustomTextInput placeholder='Display Name' name='displayName' />
@@ -41,10 +43,10 @@ export default observer(function RegistrationForm() {
           <ErrorMessage
             name='error'
             render={() => (
-              <Label style={{ marginBottom: 10 }} basic color='red' content={errors.error} />
+              <ValidationError errors={errors.error} />
             )}
           />
-          <Button loading={isSubmitting} positive content='Login' type='submit' fluid />
+          <Button loading={isSubmitting} positive content='Sign up' type='submit' fluid />
         </Form>
       )}
     </Formik>

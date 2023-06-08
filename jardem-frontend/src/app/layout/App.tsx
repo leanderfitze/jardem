@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import { useStore } from '../stores/store'
 import { useEffect } from 'react'
 import LoadingComponent from './LoadingComponent'
+import ModalContainer from '../common/modals/modalContainer'
 
 function App() {
   const { userStore, commonStore } = useStore()
@@ -20,6 +21,7 @@ function App() {
   if (commonStore.appLoaded) {
     return (
       <>
+        <ModalContainer />
         <Toaster position='bottom-right' />
         <NavBar />
         <Container style={{ marginTop: '7em' }}>
@@ -29,7 +31,7 @@ function App() {
     )
   }
 
-  return <LoadingComponent/>
+  return <LoadingComponent />
 }
 
 export default observer(App)
