@@ -10,5 +10,6 @@ namespace Domain
     {
         public string DisplayName { get; set; }
         public UserType UserType { get; set; }
+        public ICollection<UserRequest> Requests { get; set; }
     }
 }
