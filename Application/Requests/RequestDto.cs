@@ -9,6 +9,7 @@ namespace Application.Requests
         public DateTime Date { get; set; }
         public string Details { get; set; }
         public string RequesterUserName { get; set; }
+        public bool Resolved { get; set; }
         public ICollection<Profile> Participants { get; set; }
     }
 }

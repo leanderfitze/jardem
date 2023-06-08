@@ -25,6 +25,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Create.Command { Request = request }, ct));
         }
 
+        [HttpPost("{id}/participate")]
+        public async Task<ActionResult> UpdateParticipant(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateParticipation.Command { RequestId = id }));
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> EditRequest(Guid id, Request request, CancellationToken ct)
         {

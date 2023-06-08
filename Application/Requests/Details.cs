@@ -1,7 +1,5 @@
 using Application.Core;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -35,6 +33,7 @@ namespace Application.Requests
                     Title = req.Title,
                     Date = req.Date,
                     Details = req.Details,
+                    Resolved = req.Resolved,
                     RequesterUserName = req.Users.FirstOrDefault(x => x.IsRequester)?.AppUser.UserName,
                     Participants = req.Users.Select(ur => new Application.Profiles.Profile
                     {
