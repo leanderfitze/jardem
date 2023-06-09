@@ -3,6 +3,7 @@ import { RequestModel } from '../../../app/models/request'
 import { Button, Item, Segment } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store'
 import { Link } from 'react-router-dom'
+import RequestListItemParticipants from './requestListItemParticipants'
 
 interface Props {
   request: RequestModel
@@ -37,7 +38,7 @@ export default observer(function RequestListItem({ request }: Props) {
         </Item.Group>
       </Segment>
       <Segment secondary>
-        <Segment secondary>Helping people goes here </Segment>
+        <Segment secondary> <RequestListItemParticipants participants={request.participants!}/> </Segment>
       </Segment>
     </Segment.Group>
   )

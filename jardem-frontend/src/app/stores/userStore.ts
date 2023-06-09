@@ -22,6 +22,7 @@ export default class UserStore {
       runInAction(() => {
         this.user = user
       })
+      store.modalStore.closeModal()
       router.navigate('/requests')
     } catch (error) {
       throw error
@@ -53,6 +54,7 @@ export default class UserStore {
       runInAction(() => {
         this.user = user
       })
+      store.modalStore.closeModal()
       router.navigate('/requests')
     } catch (error) {
       throw error

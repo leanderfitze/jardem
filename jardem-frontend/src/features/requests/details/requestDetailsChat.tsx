@@ -12,6 +12,7 @@ export default observer(function RequestDetailsChat(){
     >
         <Header>Request chat</Header>
     </Segment>
+
     <Segment attached>
         <Comment.Group>
             <Comment>

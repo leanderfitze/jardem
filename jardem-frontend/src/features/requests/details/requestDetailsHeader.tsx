@@ -39,10 +39,10 @@ export default observer(function RequestDetailsHeader({ request }: Props) {
       <Segment basic floated='left'>
         <Item.Group>
           <Item>
-            <Item.Image size='medium' src='/assets/user.png' />
+            <Item.Image size='small' src='/assets/user.png' />
 
             <Item.Content>
-              <Item.Header as='a'>Header</Item.Header>
+              <Item.Header as='a'>{request.participants?.find(x=>x.userName===request.requesterUserName)?.displayName}</Item.Header>
               <Item.Meta>{request.title}</Item.Meta>
               <Item.Description>{request.details}</Item.Description>
               <Item.Extra>{request.date}</Item.Extra>

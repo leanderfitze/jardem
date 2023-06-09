@@ -7,6 +7,7 @@ import RequestDetailsHeader from './requestDetailsHeader'
 import RequestDetailsChat from './requestDetailsChat'
 import { Grid } from 'semantic-ui-react'
 import RequestDetailsMap from './requestDetailsMap'
+import RequestDetailsParticipants from './requestDetailsParticipants'
 
 export default observer(function RequestDetails() {
   const { requestStore } = useStore()
@@ -21,15 +22,24 @@ export default observer(function RequestDetails() {
 
   return (
     <>
-    <Grid>
-      <Grid.Column width={12}>
-      <RequestDetailsHeader request={requestStore.selectedRequest} />
-      </Grid.Column>
-      <Grid.Column width={4}>
-      <RequestDetailsMap/>
-      </Grid.Column>
-    </Grid>
-      <RequestDetailsChat />
+      <Grid>
+        <Grid.Column width={10}>
+          <RequestDetailsHeader request={requestStore.selectedRequest} />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <RequestDetailsMap />
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <RequestDetailsChat />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <RequestDetailsParticipants
+            participants={requestStore.selectedRequest.participants!.filter(
+              (x) => x.userName !== requestStore.selectedRequest?.requesterUserName
+            )}
+          />
+        </Grid.Column>
+      </Grid>
     </>
   )
 })
