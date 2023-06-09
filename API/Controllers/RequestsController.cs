@@ -31,6 +31,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new UpdateParticipation.Command { RequestId = id }));
         }
 
+        [Authorize(Policy = "IsRequesterRequirement")]
         [HttpPut("{id}")]
         public async Task<ActionResult> EditRequest(Guid id, Request request, CancellationToken ct)
         {
@@ -38,6 +39,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Request = request }, ct));
         }
 
+        [Authorize(Policy = "IsRequesterRequirement")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteRequest(Guid id, CancellationToken ct)
         {
