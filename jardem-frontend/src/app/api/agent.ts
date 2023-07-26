@@ -75,6 +75,7 @@ const Requests = {
   create: (req: RequestModel) => request.post<void>('/requests', req),
   update: (req: RequestModel) => request.put<void>(`/requests/${req.id}`, req),
   delete: (id: string) => request.del<void>(`/requests/${id}`),
+  participate: (id:string) => request.post<void>(`/requests/${id}/participate`, {})
 }
 
 const Account = {

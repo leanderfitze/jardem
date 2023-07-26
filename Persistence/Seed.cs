@@ -29,6 +29,7 @@ namespace Persistence
                     Title = "Someone stalkers me!",
                     Date = DateTime.UtcNow.AddDays(-1 ),
                     Details = "After school person is stalkering me!",
+                    Resolved = false,
                     Users = new List<UserRequest>{
                         new UserRequest{
                             AppUser = users[0],
@@ -41,6 +42,7 @@ namespace Persistence
                     Title = "I am afraid of my friend",
                     Date = DateTime.UtcNow.AddHours(-12),
                     Details = "He is taking some drugs",
+                    Resolved = false,
                     Users = new List<UserRequest>{
                         new UserRequest{
                             AppUser = users[2],
@@ -57,6 +59,7 @@ namespace Persistence
                     Title = "Help",
                     Date = DateTime.UtcNow.AddDays(-2),
                     Details = "Request 2 days ago, someone asks for help",
+                    Resolved = false,
                     Users = new List<UserRequest>{
                         new UserRequest{
                             AppUser = users[0],
@@ -78,6 +81,7 @@ namespace Persistence
                     Title = "I am lost",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Details = "Someone is lost in the forest",
+                    Resolved = false,
                     Users = new List<UserRequest>{
                         new UserRequest{
                             AppUser = users[0],

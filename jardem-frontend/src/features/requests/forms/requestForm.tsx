@@ -20,6 +20,7 @@ export default observer(function RequestForm() {
     title: '',
     details: '',
     date: '',
+    resolved: false,
   })
 
   const validationSchema = Yup.object().shape({

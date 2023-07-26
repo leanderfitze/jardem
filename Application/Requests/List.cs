@@ -1,4 +1,5 @@
 using Application.Core;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -15,13 +16,17 @@ namespace Application.Requests
         public class Handler : IRequestHandler<Query, Result<List<RequestDto>>>
         {
             private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
+                _userAccessor = userAccessor;
                 _context = context;
             }
 
             public async Task<Result<List<RequestDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
+
                 var requests = await _context.Requests
                     .Include(r => r.Users)
                     .ThenInclude(ur => ur.AppUser)
@@ -42,6 +47,8 @@ namespace Application.Requests
                     }).ToList()
                 }).ToList();
 
+                if (user.UserType == Domain.UserType.Requester) 
+                    requestsToReturn = requestsToReturn.Where(x => x.RequesterUserName == user.UserName).ToList();
                 return Result<List<RequestDto>>.Success(requestsToReturn);
             }
         }

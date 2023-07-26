@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default observer(function RequestDetailsHeader({ request }: Props) {
-  const { requestStore } = useStore()
+  const { requestStore, userStore } = useStore()
   const navigate = useNavigate()
 
   function handleDelete(e: SyntheticEvent<HTMLDivElement>, id: string) {
@@ -21,30 +21,53 @@ export default observer(function RequestDetailsHeader({ request }: Props) {
       <Segment compact floated='right' clearing style={{ marginTop: '15px' }}>
         <Dropdown text='Actions' floating loading={requestStore.deleting}>
           <Dropdown.Menu>
-            <Dropdown.Item
-              icon='pencil'
-              text='Edit'
-              as={Link}
-              to={`/edit/${requestStore.selectedRequest!.id}`}
-            />
-            <Dropdown.Item
-              icon='trash'
-              text='Delete'
-              name={requestStore.selectedRequest!.id}
-              onClick={(e) => handleDelete(e, requestStore.selectedRequest!.id)}
-            />
+            {userStore.user?.userName === requestStore.selectedRequest!.requesterUserName && (
+              <>
+                <Dropdown.Item
+                  icon='pencil'
+                  text='Edit'
+                  as={Link}
+                  to={`/edit/${requestStore.selectedRequest!.id}`}
+                />
+                <Dropdown.Item icon='check' text='Resolve' onClick={() => requestStore.resolve()} />
+                <Dropdown.Item
+                  icon='trash'
+                  text='Delete'
+                  name={requestStore.selectedRequest!.id}
+                  onClick={(e) => handleDelete(e, requestStore.selectedRequest!.id)}
+                />
+              </>
+            )}
+
+            {userStore.user?.userName !== requestStore.selectedRequest!.requesterUserName && (
+              <>
+                <Dropdown.Item
+                  icon='user plus'
+                  text='Volunteer'
+                  onClick={() => requestStore.participate()}
+                />
+              </>
+            )}
           </Dropdown.Menu>
         </Dropdown>
       </Segment>
       <Segment basic floated='left'>
         <Item.Group>
           <Item>
-            <Item.Image size='small' src='/assets/user.png' />
+            <Item.Image size='tiny' src='/assets/user.png' />
 
             <Item.Content>
-              <Item.Header as='a'>{request.participants?.find(x=>x.userName===request.requesterUserName)?.displayName}</Item.Header>
-              <Item.Meta>{request.title}</Item.Meta>
+              <Item.Header>{request.title}</Item.Header>
               <Item.Description>{request.details}</Item.Description>
+              <Item.Meta as='a'>
+                Requested by{' '}
+                <b>
+                  {
+                    request.participants?.find((x) => x.userName === request.requesterUserName)
+                      ?.displayName
+                  }
+                </b>
+              </Item.Meta>
               <Item.Extra>{request.date}</Item.Extra>
             </Item.Content>
           </Item>

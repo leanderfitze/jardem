@@ -2,6 +2,8 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { RequestModel } from '../models/request'
 import agent from '../api/agent'
 import { v4 as uuid } from 'uuid'
+import { store } from './store'
+import { Profile } from '../models/profile'
 
 export default class RequestStore {
   requestRegistry = new Map<string, RequestModel>()
@@ -39,13 +41,13 @@ export default class RequestStore {
     )
   }
 
-  get groupedRequests(){
+  get groupedRequests() {
     return Object.entries(
-      this.requestsByDate.reduce((requests, request)=>{
+      this.requestsByDate.reduce((requests, request) => {
         const date = request.date.split('T')[0]
-        requests[date] = requests[date]? [...requests[date], request] : [request]
+        requests[date] = requests[date] ? [...requests[date], request] : [request]
         return requests
-      },{} as {[key:string]:RequestModel[]})
+      }, {} as { [key: string]: RequestModel[] })
     )
   }
 
@@ -148,6 +150,36 @@ export default class RequestStore {
       runInAction(() => {
         this.deleting = false
       })
+    }
+  }
+
+  participate = async () => {
+    try {
+      await agent.Requests.participate(this.selectedRequest!.id)
+      runInAction(() => {
+        const user = store.userStore.user
+        if (this.selectedRequest?.participants?.some((x) => x.userName === user?.userName)) {
+          this.selectedRequest?.participants?.filter((x) => x.userName !== user?.userName)
+        } else {
+          const participant = new Profile(user!)
+          this.selectedRequest!.participants?.push(participant)
+        }
+
+        this.requestRegistry.set(this.selectedRequest!.id, this.selectedRequest!)
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  resolve = async () => {
+    try {
+      await agent.Requests.participate(this.selectedRequest!.id)
+      runInAction(() => {
+        this.selectedRequest!.resolved = !this.selectedRequest!.resolved
+      })
+    } catch (error) {
+      console.log(error)
     }
   }
 }
