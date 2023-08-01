@@ -11,6 +11,7 @@ import ServerError from '../../features/errors/ServerError'
 import LoginForm from '../../features/users/LoginForm'
 import HomePage from '../../features/home/homePage'
 import RegistrationForm from '../../features/users/RegistrationForm'
+import ProfilePage from '../../features/profiles/profilePage'
 
 export const routes: RouteObject[] = [
   {
@@ -24,6 +25,7 @@ export const routes: RouteObject[] = [
       { path: 'learn', element: <LearnPage /> },
       { path: 'login', element: <LoginForm /> },
       { path: 'not-found', element: <NotFound /> },
+      { path: 'profiles/:username', element: <ProfilePage/>},
       { path: 'register', element: <RegistrationForm /> },
       { path: 'requests', element: <RequestDashboard /> },
       { path: 'requests/:id', element: <RequestDetails /> },

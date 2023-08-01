@@ -54,7 +54,7 @@ export default observer(function RequestDetailsHeader({ request }: Props) {
       <Segment basic floated='left'>
         <Item.Group>
           <Item>
-            <Item.Image size='tiny' src='/assets/user.png' />
+            <Item.Image size='tiny' src={request.requester?.image || '/assets/user.png'} />
 
             <Item.Content>
               <Item.Header>{request.title}</Item.Header>
@@ -62,10 +62,13 @@ export default observer(function RequestDetailsHeader({ request }: Props) {
               <Item.Meta as='a'>
                 Requested by{' '}
                 <b>
-                  {
-                    request.participants?.find((x) => x.userName === request.requesterUserName)
-                      ?.displayName
-                  }
+                  {' '}
+                  <Link to={`/profiles/${request.requesterUserName}`}>
+                    {
+                      request.participants?.find((x) => x.userName === request.requesterUserName)
+                        ?.displayName
+                    }
+                  </Link>
                 </b>
               </Item.Meta>
               <Item.Extra>{request.date}</Item.Extra>

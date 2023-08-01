@@ -14,7 +14,7 @@ export default function RequestDetailsParticipants({ participants }: Props) {
         <Item.Group divided>
           {participants.map((participant) => (
             <Item key={participant.userName}>
-              <Item.Image src='/assets/user.png' size='mini' circular />
+              <Item.Image src={participant.image||'/assets/user.png'} size='mini' circular />
               <Item.Content verticalAlign='middle'>
                 <Item.Header as={Link} to={`/profiles/${participant.displayName}`}>
                   {participant.displayName}

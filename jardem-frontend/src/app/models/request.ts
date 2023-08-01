@@ -8,4 +8,5 @@ export interface RequestModel {
   requesterUserName?: string
   resolved: boolean
   participants?: Profile[]
+  requester?: Profile
 }

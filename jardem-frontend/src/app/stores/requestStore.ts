@@ -23,6 +23,7 @@ export default class RequestStore {
       const requests = await agent.Requests.list()
       runInAction(() => {
         requests.forEach((req) => {
+          req.requester = req.participants!.find((x) => x.userName === req.requesterUserName)
           this.requestRegistry.set(req.id, req)
         })
         this.loadingInitial = false

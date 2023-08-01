@@ -18,8 +18,8 @@ export default observer(function RequestPreview() {
     return <LoadingComponent content='Loading a request...' />
 
   return (
-    <Card style={{position:'fixed'}}>
-      <Image src='/assets/user.png' fluid />
+    <Card style={{ position: 'fixed' }}>
+      <Image src={requestStore.selectedRequest.requester?.image || '/assets/user.png'} fluid />
       <Card.Content>
         <Card.Header>{requestStore.selectedRequest.title}</Card.Header>
         <Card.Meta>

@@ -16,7 +16,7 @@ export default observer(function RequestListItem({ request }: Props) {
       <Segment>
         <Item.Group divided>
           <Item key={request.id}>
-            <Item.Image circular size='tiny' src='/assets/user.png' />
+            <Item.Image circular size='tiny' src={request.requester?.image || '/assets/user.png'} />
             <Item.Content>
               <Item.Header as={Link} to={`/requests/${request.id}`}>
                 {request.title}{' '}
