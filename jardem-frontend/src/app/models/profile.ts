@@ -5,6 +5,7 @@ export interface Profile {
   displayName: string
   userType: UserType
   image?: string
+  photos?: Photo[]
 }
 
 export class Profile implements Profile {
@@ -14,4 +15,9 @@ export class Profile implements Profile {
     this.userType = user.userType
     this.image = user.image
   }
+}
+
+export interface Photo {
+  id: string,
+  url: string
 }
