@@ -10,6 +10,6 @@ namespace Application.Requests
         public string Details { get; set; }
         public string RequesterUserName { get; set; }
         public bool Resolved { get; set; }
-        public ICollection<Profile> Participants { get; set; }
+        public ICollection<ParticipantDto> Participants { get; set; }
     }
 }

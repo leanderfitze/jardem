@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230729151725_PhotoEntityAdded")]
+    partial class PhotoEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
@@ -45,7 +48,7 @@ namespace Persistence.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("MainPhoto")
+                    b.Property<string>("MainPhotoId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -79,6 +82,8 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MainPhotoId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -275,6 +280,15 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.AppUser", b =>
+                {
+                    b.HasOne("Domain.Photo", "MainPhoto")
+                        .WithMany()
+                        .HasForeignKey("MainPhotoId");
+
+                    b.Navigation("MainPhoto");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>

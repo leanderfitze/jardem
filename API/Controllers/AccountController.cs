@@ -74,7 +74,7 @@ namespace API.Controllers
                 DisplayName = user.DisplayName,
                 UserName = user.UserName,
                 UserType = user.UserType,
-                Image = null,
+                Image = user.MainPhoto,
                 Token = _tokenService.CreateToken(user)
             };
         }

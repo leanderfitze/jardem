@@ -39,15 +39,16 @@ namespace Application.Requests
                     Date = r.Date,
                     Details = r.Details,
                     RequesterUserName = r.Users.FirstOrDefault(x => x.IsRequester)?.AppUser.UserName,
-                    Participants = r.Users.Select(ur => new Application.Profiles.Profile
+                    Participants = r.Users.Select(ur => new ParticipantDto
                     {
-                        UserName = ur.AppUser.UserName,
-                        DisplayName = ur.AppUser.DisplayName,
-                        UserType = ur.AppUser.UserType
+                        UserName = ur.AppUser?.UserName,
+                        DisplayName = ur.AppUser?.DisplayName,
+                        UserType = (Domain.UserType)(ur.AppUser?.UserType),
+                        Image = ur.AppUser?.MainPhoto
                     }).ToList()
                 }).ToList();
 
-                if (user.UserType == Domain.UserType.Requester) 
+                if (user.UserType == Domain.UserType.Requester)
                     requestsToReturn = requestsToReturn.Where(x => x.RequesterUserName == user.UserName).ToList();
                 return Result<List<RequestDto>>.Success(requestsToReturn);
             }

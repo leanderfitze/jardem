@@ -35,11 +35,12 @@ namespace Application.Requests
                     Details = req.Details,
                     Resolved = req.Resolved,
                     RequesterUserName = req.Users.FirstOrDefault(x => x.IsRequester)?.AppUser.UserName,
-                    Participants = req.Users.Select(ur => new Application.Profiles.Profile
+                    Participants = req.Users.Select(ur => new ParticipantDto
                     {
-                        UserName = ur.AppUser.UserName,
-                        DisplayName = ur.AppUser.DisplayName,
-                        UserType = ur.AppUser.UserType
+                        UserName = ur.AppUser?.UserName,
+                        DisplayName = ur.AppUser?.DisplayName,
+                        UserType = (Domain.UserType)(ur.AppUser?.UserType),
+                        Image = ur.AppUser?.MainPhoto
                     }).ToList()
                 };
                 return Result<RequestDto>.Success(requestsToReturn);
