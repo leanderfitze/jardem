@@ -8,5 +8,6 @@ namespace Domain
         public string Details { get; set; }
         public bool Resolved { get; set; }
         public ICollection<UserRequest> Users { get; set; } = new List<UserRequest>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

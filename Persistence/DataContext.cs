@@ -14,6 +14,7 @@ namespace Persistence
         public DbSet<Request> Requests { get; set; }
         public DbSet<UserRequest> UserRequests { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,6 +32,11 @@ namespace Persistence
                 .HasOne(r => r.Request)
                 .WithMany(u => u.Users)
                 .HasForeignKey(ur => ur.RequestId);
+
+            builder.Entity<Comment>()
+                .HasOne(r=>r.Request)
+                .WithMany(c=>c.Comments)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
