@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast'
 import { router } from '../router/routes'
 import { store } from '../stores/store'
 import { User, UserFormValues } from '../models/user'
-import { Profile } from '../models/profile'
+import { Photo, Profile } from '../models/profile'
 
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
@@ -13,6 +13,8 @@ const sleep = (delay: number) => {
 }
 
 axios.defaults.baseURL = 'http://localhost:5000/api'
+
+axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 axios.interceptors.request.use(config => {
   const token = store.commonStore.token;
@@ -86,7 +88,14 @@ const Account = {
 }
 
 const Profiles = {
-  get: (userName: string) => request.get<Profile>(`/profiles/${userName}`) 
+  get: (userName: string) => request.get<Profile>(`/profiles/${userName}`),
+  uploadPhoto: (file: Blob) => {
+    let formData = new FormData()
+    formData.append('File', file)
+    return axios.post<Photo>('photos', formData, {headers: {'Content-Type':'multipart/form-data'}})
+  },
+  setMainPhoto: (id:string) => request.post<void>(`/photos/${id}/setmain`,{}),
+  deletePhoto: (id:string) => request.del<void>(`/photos/${id}`)
 }
 
 const agent = {

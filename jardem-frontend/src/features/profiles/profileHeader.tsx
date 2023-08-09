@@ -1,11 +1,12 @@
 import { Header, Item, Segment } from 'semantic-ui-react'
 import { Profile } from '../../app/models/profile'
+import { observer } from 'mobx-react-lite'
 
 interface Props {
   profile: Profile 
 }
 
-export default function ProfileHeader({ profile }: Props) {
+export default observer( function ProfileHeader({ profile }: Props) {
   return (
     <Segment>
       <Item.Group>
@@ -19,3 +20,4 @@ export default function ProfileHeader({ profile }: Props) {
     </Segment>
   )
 }
+)
