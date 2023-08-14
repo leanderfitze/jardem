@@ -24,7 +24,7 @@ namespace API.SignalR
             var httpContext = Context.GetHttpContext();
             var requestId = httpContext.Request.Query["requestId"];
             await Groups.AddToGroupAsync(Context.ConnectionId, requestId);
-            var result = await _mediator.Send(new List.Query{RequestId=Guid.Parse( requestId)});
+            var result = await _mediator.Send(new List.Query { RequestId = Guid.Parse(requestId) });
             await Clients.Caller.SendAsync("LoadComments", result.Value);
         }
     }

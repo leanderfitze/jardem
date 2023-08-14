@@ -4,6 +4,7 @@ import { Form, Label } from 'semantic-ui-react'
 interface Props {
   name: string
   placeholder: string
+  rows?: number
   label?: string
 }
 export default function CustomTextArea(props: Props) {

@@ -1,4 +1,4 @@
-using Application.Profiles;
+using Application.Comments;
 
 namespace Application.Requests
 {
@@ -11,5 +11,6 @@ namespace Application.Requests
         public string RequesterUserName { get; set; }
         public bool Resolved { get; set; }
         public ICollection<ParticipantDto> Participants { get; set; }
+        public ICollection<CommentDTO> Comments { get; set; }
     }
 }

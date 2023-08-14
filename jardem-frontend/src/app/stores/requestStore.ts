@@ -183,4 +183,8 @@ export default class RequestStore {
       console.log(error)
     }
   }
+
+  clearSelectedRequest = () => {
+    this.selectedRequest = undefined
+  }
 }

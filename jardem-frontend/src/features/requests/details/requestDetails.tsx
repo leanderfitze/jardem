@@ -15,6 +15,7 @@ export default observer(function RequestDetails() {
 
   useEffect(() => {
     if (id) requestStore.loadRequest(id)
+    return () => requestStore.clearSelectedRequest()
   }, [id, requestStore])
 
   if (requestStore.loadingInitial || !requestStore.selectedRequest)
@@ -30,7 +31,7 @@ export default observer(function RequestDetails() {
           <RequestDetailsMap />
         </Grid.Column>
         <Grid.Column width={10}>
-          <RequestDetailsChat />
+          <RequestDetailsChat requestId={requestStore.selectedRequest.id} />
         </Grid.Column>
         <Grid.Column width={6}>
           <RequestDetailsParticipants
