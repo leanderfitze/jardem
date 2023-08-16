@@ -1,12 +1,12 @@
 import { Grid } from 'semantic-ui-react'
 import ProfileHeader from './profileHeader'
-import RequestDetailsMap from '../requests/details/requestDetailsMap'
 import ProfileContent from './profileContent'
 import { observer } from 'mobx-react-lite'
 import { useParams } from 'react-router'
 import { useStore } from '../../app/stores/store'
 import { useEffect } from 'react'
 import LoadingComponent from '../../app/layout/LoadingComponent'
+import ProfileLocation from './profileLocation'
 
 export default observer(function ProfilePage() {
   const { username } = useParams<{ username: string }>()
@@ -23,7 +23,7 @@ export default observer(function ProfilePage() {
     <Grid>
       <Grid.Column width={12}>{profile && <ProfileHeader profile={profile} />}</Grid.Column>
       <Grid.Column width={4}>
-        <RequestDetailsMap />
+        <ProfileLocation />
       </Grid.Column>
       <Grid.Column width={16}>
         <ProfileContent />

@@ -9,6 +9,8 @@ export default class ProfileStore {
   uploading: boolean = false
   settingMainPhoto: boolean = false
   deletingPhoto: boolean = false
+  lat: number | null = null
+  long: number | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -90,5 +92,31 @@ export default class ProfileStore {
         this.deletingPhoto = false
       })
     }
+  }
+
+  getPosition = () => {
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(this.showPosition, this.posError)
+    }
+    else
+    alert('Sorry, Geolocation is not supported by this browser')
+  }
+
+  posError =() =>{
+    if(navigator.permissions){
+      navigator.permissions.query({name:'geolocation'}).then(res=>{
+        if(res.state==='denied'){
+          alert('Enable location permissions for this website in yor browser settings')
+        }
+      })
+    }
+    else{
+      alert('Unable to acess your lcoation. You can continue bby putting your locaion manually')
+    }
+  }
+
+  showPosition = (position:GeolocationPosition) =>{
+    this.lat = position.coords.latitude
+    this.long = position.coords.longitude
   }
 }

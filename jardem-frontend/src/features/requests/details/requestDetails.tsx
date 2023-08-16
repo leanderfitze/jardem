@@ -6,8 +6,8 @@ import LoadingComponent from '../../../app/layout/LoadingComponent'
 import RequestDetailsHeader from './requestDetailsHeader'
 import RequestDetailsChat from './requestDetailsChat'
 import { Grid } from 'semantic-ui-react'
-import RequestDetailsMap from './requestDetailsMap'
 import RequestDetailsParticipants from './requestDetailsParticipants'
+import ProfileLocation from '../../profiles/profileLocation'
 
 export default observer(function RequestDetails() {
   const { requestStore } = useStore()
@@ -28,7 +28,7 @@ export default observer(function RequestDetails() {
           <RequestDetailsHeader request={requestStore.selectedRequest} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <RequestDetailsMap />
+          <ProfileLocation />
         </Grid.Column>
         <Grid.Column width={10}>
           <RequestDetailsChat requestId={requestStore.selectedRequest.id} />
